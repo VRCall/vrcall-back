@@ -24,7 +24,6 @@ module.exports = async (req: Request, res: Response) => {
             id: true,
             receiver: {
               select: {
-                id: true,
                 pseudo: true,
                 img: true,
               },
@@ -39,7 +38,6 @@ module.exports = async (req: Request, res: Response) => {
             id: true,
             sender: {
               select: {
-                id: true,
                 pseudo: true,
                 img: true,
               },
@@ -50,7 +48,6 @@ module.exports = async (req: Request, res: Response) => {
     });
     const sentFriendships = friendships!.sent_friendships.map((friendship) => {
       return {
-        id: friendship.receiver.id,
         pseudo: friendship.receiver.pseudo,
         img: friendship.receiver.img,
         friendship_id: friendship.id,
@@ -59,7 +56,6 @@ module.exports = async (req: Request, res: Response) => {
     const receivedFriendships = friendships!.received_friendships.map(
       (friendship) => {
         return {
-          id: friendship.sender.id,
           pseudo: friendship.sender.pseudo,
           img: friendship.sender.img,
           friendship_id: friendship.id,
@@ -67,7 +63,7 @@ module.exports = async (req: Request, res: Response) => {
       }
     );
     const merged = [...sentFriendships, ...receivedFriendships];
-    const filteredList = new Map(merged.map((item) => [item["id"], item]));
+    const filteredList = new Map(merged.map((item) => [item["pseudo"], item]));
     const friendList = Array.from(filteredList.values()).sort((a, b) =>
       a.pseudo.localeCompare(b.pseudo)
     );
