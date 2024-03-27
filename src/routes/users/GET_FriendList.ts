@@ -1,3 +1,4 @@
+import { Friendship } from "./../../../node_modules/.prisma/client/index.d";
 import { User } from "@prisma/client";
 import prisma from "../../utils/prisma";
 import { Request, Response } from "express";
@@ -20,6 +21,7 @@ module.exports = async (req: Request, res: Response) => {
             is_pending: false,
           },
           select: {
+            id: true,
             receiver: {
               select: {
                 id: true,
@@ -34,6 +36,7 @@ module.exports = async (req: Request, res: Response) => {
             is_pending: false,
           },
           select: {
+            id: true,
             sender: {
               select: {
                 id: true,
@@ -50,6 +53,7 @@ module.exports = async (req: Request, res: Response) => {
         id: friendship.receiver.id,
         pseudo: friendship.receiver.pseudo,
         img: friendship.receiver.img,
+        friendship_id: friendship.id,
       };
     });
     const receivedFriendships = friendships!.received_friendships.map(
@@ -58,6 +62,7 @@ module.exports = async (req: Request, res: Response) => {
           id: friendship.sender.id,
           pseudo: friendship.sender.pseudo,
           img: friendship.sender.img,
+          friendship_id: friendship.id,
         };
       }
     );
