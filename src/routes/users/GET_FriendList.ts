@@ -10,7 +10,7 @@ module.exports = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Missing fields" });
     }
 
-    const friendships = await prisma.user.findMany({
+    const friendships = await prisma.user.findFirst({
       where: {
         id: user.id,
       },
@@ -39,7 +39,7 @@ module.exports = async (req: Request, res: Response) => {
         },
       },
     });
-    const sentFriendships = friendships[0].sent_friendships.map(
+    const sentFriendships = friendships!.sent_friendships.map(
       (friendship) => {
         return {
           id: friendship.receiver.id,
@@ -48,7 +48,7 @@ module.exports = async (req: Request, res: Response) => {
         };
       }
     );
-    const receivedFriendships = friendships[0].received_friendships.map(
+    const receivedFriendships = friendships!.received_friendships.map(
       (friendship) => {
         return {
           id: friendship.sender.id,
