@@ -16,6 +16,9 @@ module.exports = async (req: Request, res: Response) => {
       },
       select: {
         sent_friendships: {
+          where: {
+            is_pending: false,
+          },
           select: {
             receiver: {
               select: {
@@ -27,6 +30,9 @@ module.exports = async (req: Request, res: Response) => {
           },
         },
         received_friendships: {
+          where: {
+            is_pending: false,
+          },
           select: {
             sender: {
               select: {
@@ -39,15 +45,13 @@ module.exports = async (req: Request, res: Response) => {
         },
       },
     });
-    const sentFriendships = friendships!.sent_friendships.map(
-      (friendship) => {
-        return {
-          id: friendship.receiver.id,
-          pseudo: friendship.receiver.pseudo,
-          img: friendship.receiver.img,
-        };
-      }
-    );
+    const sentFriendships = friendships!.sent_friendships.map((friendship) => {
+      return {
+        id: friendship.receiver.id,
+        pseudo: friendship.receiver.pseudo,
+        img: friendship.receiver.img,
+      };
+    });
     const receivedFriendships = friendships!.received_friendships.map(
       (friendship) => {
         return {
