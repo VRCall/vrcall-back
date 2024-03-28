@@ -56,8 +56,7 @@ module.exports = async (req: Request, res: Response) => {
 
         const hashedPassword = await bcrypt.hash(validatedFields.data.password, parseInt(process.env.SALTS!));
 
-        const url = req.protocol + '://' + req.get('host')
-        const profileImg = url + '/uploads' + image.filename
+        const profileImg = '/uploads' + image.filename
 
         await prisma.user.create({
             data: {
