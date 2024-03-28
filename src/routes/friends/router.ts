@@ -4,11 +4,12 @@ import authentication from "../../utils/auth";
 
 // Get methods
 const addFriends = require("./POST_AddFriends");
-const receivedFriends = require("./GET_AddFriends");
-
+const friendRequests = require("./GET_FriendRequests");
+const acceptFriends = require("./PATCH_AcceptFriends");
 
 // Add to router
 router.post("/", authentication, addFriends);
-router.get("/", authentication, receivedFriends);
+router.get("/friend-requests", authentication, friendRequests);
+router.patch("/accept-friends/:id", authentication, acceptFriends);
 
 module.exports.routes = router;

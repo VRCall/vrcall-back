@@ -8,13 +8,6 @@ module.exports = async (req: Request, res: Response) => {
 
     const { pseudo, user } = req.body;
 
-    /*  
-    
-    toi = user => we have everything about you fucker
-    
-    
-    */
-
     if (!pseudo) {
       return res.status(400).json({ message: "Empty area" });
     }
@@ -31,11 +24,12 @@ module.exports = async (req: Request, res: Response) => {
     // we also have everything about your friend fucker
 
     if (!receiver) {
-      return res.status(404).json({ message: "User doesn't exist" });
+      return res.status(204).json({ message: "User doesn't exist" });
     }
 
     const checkFriendshipExistance = await prisma.friendship.findFirst({
       where: {
+        is_pending: true,
         OR: [
           { sender_id: user.id, receiver_id: receiver.id },
           { sender_id: receiver.id, receiver_id: user.id },
@@ -43,7 +37,11 @@ module.exports = async (req: Request, res: Response) => {
       },
     });
 
-    if (checkFriendshipExistance) {
+    if (checkFriendshipExistance?.sender_id === user.id) {
+      return res.status(200).json({ message: "Request already sent" });
+    }
+
+    if (checkFriendshipExistance?.sender_id === receiver.id) {
       return res
         .status(200)
         .json({ message: "Please accept your friend's request" });
@@ -56,9 +54,9 @@ module.exports = async (req: Request, res: Response) => {
       },
     });
 
-    if (!friendship) return res.status(400).json({ message: "failure" });
+    if (!friendship) return res.status(400).json({ message: "Failure" });
 
-    return res.status(200).json({ message: "success" });
+    return res.status(200).json({ message: "Success" });
   } catch (error: any) {
     console.log("Error : " + error);
     return res.status(500).json({ message: "An error occured : " + error });
