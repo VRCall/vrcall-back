@@ -1,4 +1,3 @@
-import { Friendship } from "./../../../node_modules/.prisma/client/index.d";
 import { User } from "@prisma/client";
 import prisma from "../../utils/prisma";
 import { Request, Response } from "express";
