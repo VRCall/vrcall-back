@@ -5,9 +5,14 @@ const prisma = new PrismaClient();
 
 module.exports = async (req:Request, res:Response) => {
     try {
-        const messages = await prisma.friendshipMessage.findMany();
-
-        return res.status(201).json({'test':messages})
+        const id= req.params.id
+        const messages = await prisma.friendshipMessage.findMany({
+            where:{
+                friendship_id: id
+            }
+        });
+        
+        return res.status(201).json({'messages':messages})
         
     } catch (error) {
         console.error('Error fetching messages:', error);

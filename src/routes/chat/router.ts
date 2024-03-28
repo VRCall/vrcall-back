@@ -10,13 +10,19 @@ const getMessages = require("./GET_Messages");
  
 
 export const initializeSocketIO = (server: any) => {
-    const io = new Server(server);
+    const io = new Server(server, {
+        cors: {
+            origin: process.env.FRONTEND_BASE_URL
+        }
+    });
 
     io.on('connection', (socket: Socket) => {
         console.log('Client connected:', socket.id);
 
-        socket.on('newMessage', (messageContent: string) => {
-            createMessage(socket, messageContent);
+        socket.on('sendMessage', (messageContent: string) => {
+            console.log(messageContent);
+            socket.emit("receiveMessage", messageContent)
+            //createMessage(socket, messageContent);
         });
 
         // socket.on('editMessage', (editedMessage: { messageId: string, newContent: string }) => {
@@ -25,7 +31,7 @@ export const initializeSocketIO = (server: any) => {
     });
 };
 
-router.get('/messages',authentication, getMessages)
+router.get('/messages/:id',authentication, getMessages)
 router.post('/',authentication, createMessage)
 // router.put('/:id',authentication,editMessage)
 
