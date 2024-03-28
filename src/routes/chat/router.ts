@@ -19,9 +19,11 @@ export const initializeSocketIO = (server: any) => {
     io.on('connection', (socket: Socket) => {
         console.log('Client connected:', socket.id);
 
-        socket.on('sendMessage', (messageContent: string) => {
-            console.log(messageContent);
-            socket.emit("receiveMessage", messageContent)
+        socket.on('sendMessage', (data) => {
+            console.log("wtdgfzhfjzk");
+            
+            console.log(data);
+            socket.emit("receiveMessage", data)
             //createMessage(socket, messageContent);
         });
 

@@ -8,11 +8,30 @@ module.exports = async (req:Request, res:Response) => {
         const id= req.params.id
         const messages = await prisma.friendshipMessage.findMany({
             where:{
-                friendship_id: id
+                friendship_id: id,
+            },
+            select: {
+                friendship_id: true,
+                text: true,
+                sender: {
+                    select: {
+                        pseudo: true
+                    }
+                }
             }
         });
+
+        let messagesToReturn: {friendship_id: string, text: string, senderName: string}[] = []
+
+        messages.map((message) => {
+            messagesToReturn.push({
+                "friendship_id": message.friendship_id,
+                "text": message.text,
+                "senderName": message.sender.pseudo
+            })
+        })
         
-        return res.status(201).json({'messages':messages})
+        return res.status(201).json({'messages':messagesToReturn})
         
     } catch (error) {
         console.error('Error fetching messages:', error);
