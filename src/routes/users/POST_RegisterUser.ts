@@ -56,7 +56,7 @@ module.exports = async (req: Request, res: Response) => {
 
         const hashedPassword = await bcrypt.hash(validatedFields.data.password, parseInt(process.env.SALTS!));
 
-        const profileImg = '/uploads' + image.filename
+        const profileImg = '/images' + image.filename
 
         await prisma.user.create({
             data: {
