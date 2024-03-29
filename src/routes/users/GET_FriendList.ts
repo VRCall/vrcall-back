@@ -67,9 +67,9 @@ module.exports = async (req: Request, res: Response) => {
       a.pseudo.localeCompare(b.pseudo)
     );
 
-    if (friendList.length === 0) {
-      return res.status(400).json({ message: "No friends" });
-    }
+    // if (friendList.length === 0) {
+    //   return res.status(204).json({ message: "No friends" });
+    // }
 
     return res.status(200).json(friendList);
   } catch (error: any) {

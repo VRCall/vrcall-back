@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import prisma from "../../utils/prisma";
 const bcrypt = require("bcrypt");
 import z from "zod";
+const path = require("path")
+const fs = require("fs")
+const axios = require("axios")
 
 const RegisterSchema = z.object({
     pseudo: z.string().regex(/^[A-Za-z0-9_.]+$/),
@@ -14,26 +17,18 @@ const RegisterSchema = z.object({
 
 module.exports = async (req: Request, res: Response) => {
 
-    try {
+    try {        
 
         const { pseudo, email, password, confirmPassword } = req.body;
+        //@ts-ignore
+        const image = req.file;
 
-        console.log(req.body);
-        
-        
-        // if(profilePicture !== null && !profilePicture?.type.startsWith("image/")) {
-        //     return "Error"
-        // }
-
-        // let newFileName;
-
-        // if(profilePicture !== null) {
-        //     let fileExtension = profilePicture.name.split(".").pop();
-        //     newFileName = "/" + crypto.randomUUID() + "." + fileExtension;
-        // }
-        // else {
-        //     newFileName = "/default.png";
-        // } 
+        console.log(image);
+                
+        if(image !== null && !image?.mimetype.startsWith("image/")) {
+            //fs.unlink(`./uploads/${image?.filename}`)
+            return res.status(400).json({ message: "Invalid image" })
+        }
 
         const validatedFields = RegisterSchema.safeParse({
             pseudo: pseudo,
@@ -61,12 +56,14 @@ module.exports = async (req: Request, res: Response) => {
 
         const hashedPassword = await bcrypt.hash(validatedFields.data.password, parseInt(process.env.SALTS!));
 
+        const profileImg = '/images' + image.filename
+
         await prisma.user.create({
             data: {
                 pseudo: validatedFields.data.pseudo,
                 email: validatedFields.data.email,
                 password: hashedPassword,
-                img: "/default.png"
+                img: profileImg
             }
         });
 
