@@ -31,7 +31,7 @@ module.exports = async (req:Request, res:Response) => {
             })
         })
         
-        return res.status(201).json({'messages':messagesToReturn})
+        return res.status(200).json({'messages':messagesToReturn})
         
     } catch (error) {
         console.error('Error fetching messages:', error);

@@ -54,10 +54,6 @@ module.exports = async (req: Request, res: Response) => {
     );
     const friendList = Array.from(filteredList.values());
 
-    if (friendList.length === 0) {
-      return res.status(400).json({ message: "No requests" });
-    }
-
     return res.status(200).json(friendList);
   } catch (error: any) {
     console.log("Error : " + error);
