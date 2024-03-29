@@ -38,12 +38,14 @@ const registerUser = require("./POST_RegisterUser");
 const loginUser = require("./POST_LoginUser");
 const getFriendList = require("./GET_FriendList");
 const getUser = require("./GET_CurrentUser")
+const getProfile = require("./GET_Profile")
 
 // Add to router
 router.post("/signup", upload.single('profilePicture'), registerUser);
 router.post("/login", loginUser);
 router.get("/friends", authentication, getFriendList);
 router.get("/current", authentication, getUser);
+router.get("/profile", authentication, getProfile);
 router.post("/auth", authentication, (req: Request, res: Response) => {
     res.json(true);
 })
