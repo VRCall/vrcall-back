@@ -25,6 +25,8 @@ const server = createServer(app);
 
 initializeSocketIO(server);
 
+app.use("/peerjs", ExpressPeerServer(server))
+
 const port = process.env.PORT || 8000;
 
 app.use("/users", usersRouter.routes)

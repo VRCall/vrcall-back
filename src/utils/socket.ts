@@ -32,12 +32,8 @@ export const initializeSocketIO = (server: any) => {
             socket.to(roomId).emit("user-connected", userId)
         })
 
-        socket.on("call", (data) => {
-            io.to(data.userToCall).emit("callUser", {signal: data.signalData, from: data.from, name: data.name})
-        })
-
-        socket.on("answerCall", (data) => {
-            io.to(data.to).emit("callAccepted"), data.signal
+        socket.on("ready", (roomId: string, userId: string) => {
+            socket.to(roomId).emit("user-ready", userId)
         })
 
         socket.on("disconnect", () => {
