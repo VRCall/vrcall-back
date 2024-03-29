@@ -37,7 +37,7 @@ const upload = multer({
 const registerUser = require("./POST_RegisterUser");
 const loginUser = require("./POST_LoginUser");
 const getFriendList = require("./GET_FriendList");
-const getUser = require("./GET_User")
+const getUser = require("./GET_CurrentUser")
 
 // Add to router
 router.post("/signup", upload.single('profilePicture'), registerUser);
