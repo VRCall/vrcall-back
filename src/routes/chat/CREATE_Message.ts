@@ -6,9 +6,7 @@ const prisma = new PrismaClient();
 
 module.exports = async (req:Request, res:Response) => {
     try {
-        const {text,friendship_id, user}=req.body
-        console.log(req.body);
-        
+        const {text,friendship_id, user}=req.body        
 
         const newMessage = await prisma.friendshipMessage.create({
             data: {
