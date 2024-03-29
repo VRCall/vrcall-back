@@ -18,7 +18,10 @@ module.exports = async (req:Request, res:Response) => {
                         pseudo: true
                     }
                 }
-            }
+            },
+            orderBy: {
+                sent_at: 'asc',
+            },
         });
 
         let messagesToReturn: {friendship_id: string, text: string, senderName: string}[] = []
