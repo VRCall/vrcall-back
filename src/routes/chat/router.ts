@@ -19,11 +19,14 @@ export const initializeSocketIO = (server: any) => {
     io.on('connection', (socket: Socket) => {
         console.log('Client connected:', socket.id);
 
+        socket.on("join-chat", (roomId: string) => {            
+            socket.join(roomId)
+        })
+
         socket.on('sendMessage', (data) => {
             console.log("wtdgfzhfjzk");
             
-            console.log(data);
-            socket.emit("receiveMessage", data)
+            socket.to(data.roomId).emit("receiveMessage", data)
             //createMessage(socket, messageContent);
         });
 
