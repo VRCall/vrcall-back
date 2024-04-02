@@ -18,7 +18,10 @@ module.exports = async (req:Request, res:Response) => {
                         pseudo: true
                     }
                 }
-            }
+            },
+            orderBy: {
+                sent_at: 'asc',
+            },
         });
 
         let messagesToReturn: {friendship_id: string, text: string, senderName: string}[] = []
@@ -31,7 +34,7 @@ module.exports = async (req:Request, res:Response) => {
             })
         })
         
-        return res.status(201).json({'messages':messagesToReturn})
+        return res.status(200).json({'messages':messagesToReturn})
         
     } catch (error) {
         console.error('Error fetching messages:', error);

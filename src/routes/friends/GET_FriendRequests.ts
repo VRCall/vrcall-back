@@ -15,61 +15,44 @@ module.exports = async (req: Request, res: Response) => {
         id: user.id,
       },
       select: {
-        sent_friendships: {
-          where: {
-            is_pending: false,
-          },
-          select: {
-            id: true,
-            receiver: {
-              select: {
-                pseudo: true,
-                img: true,
-              },
-            },
-          },
-        },
         received_friendships: {
           where: {
-            is_pending: false,
+            is_pending: true,
           },
           select: {
             id: true,
             sender: {
               select: {
+                id: true,
                 pseudo: true,
                 img: true,
               },
             },
+            sent_at: true,
           },
         },
       },
     });
-    const sentFriendships = friendships!.sent_friendships.map((friendship) => {
-      return {
-        pseudo: friendship.receiver.pseudo,
-        img: friendship.receiver.img,
-        friendship_id: friendship.id,
-      };
-    });
+
+    if (!friendships) {
+      return;
+    }
+
     const receivedFriendships = friendships!.received_friendships.map(
       (friendship) => {
         return {
+          friendship_id: friendship.id,
+          id: friendship.sender.id,
           pseudo: friendship.sender.pseudo,
           img: friendship.sender.img,
-          friendship_id: friendship.id,
+          sent_at: friendship.sent_at,
         };
       }
     );
-    const merged = [...sentFriendships, ...receivedFriendships];
-    const filteredList = new Map(merged.map((item) => [item["pseudo"], item]));
-    const friendList = Array.from(filteredList.values()).sort((a, b) =>
-      a.pseudo.localeCompare(b.pseudo)
+    const filteredList = new Map(
+      receivedFriendships.map((item) => [item["id"], item])
     );
-
-    // if (friendList.length === 0) {
-    //   return res.status(204).json({ message: "No friends" });
-    // }
+    const friendList = Array.from(filteredList.values());
 
     return res.status(200).json(friendList);
   } catch (error: any) {
