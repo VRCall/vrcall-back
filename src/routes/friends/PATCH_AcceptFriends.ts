@@ -5,7 +5,6 @@ module.exports = async (req: Request, res: Response) => {
   try {
     const { accept } = req.body;
     const id = req.params.id;
-    console.log(id);
 
     if (accept) {
       await prisma.friendship.update({

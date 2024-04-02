@@ -22,8 +22,6 @@ module.exports = async (req: Request, res: Response) => {
         const { pseudo, email, password, confirmPassword } = req.body;
         //@ts-ignore
         const image = req.file;
-
-        console.log(image);
                 
         if(image !== null && !image?.mimetype.startsWith("image/")) {
             //fs.unlink(`./uploads/${image?.filename}`)

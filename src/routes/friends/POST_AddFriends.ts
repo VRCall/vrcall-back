@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
 import prisma from "../../utils/prisma";
-import { send } from "process";
 
 module.exports = async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
 
     const { pseudo, user } = req.body;
 

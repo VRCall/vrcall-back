@@ -4,6 +4,7 @@ import { Socket } from 'socket.io';
 const { ExpressPeerServer } = require("peer");
 import { createServer } from "http";
 import { initializeSocketIO } from "./utils/socket";
+import path from "path";
 const fs = require("fs");
 
 const app: Application = express();
@@ -13,7 +14,7 @@ const messagesRouter = require("./routes/chat/router");
 const friendshipsRouter = require("./routes/friends/router");
 
 const corsOptions = {
-  origin: process.env.FRONTEND_BASE_URL || "*",
+  origin: "*",
 };
 
 app.use(express.json());
@@ -25,10 +26,11 @@ app.use("/users", usersRouter.routes);
 app.use("/chat", messagesRouter.routes);
 
 app.get("/images/:imageName", (req: Request, res: Response) => {
-  const imageName = req.params.imageName;
+  const imageName = path.basename(req.params.imageName); 
   const readStream = fs.createReadStream(`uploads/${imageName}`);
   readStream.pipe(res);
 });
+app.set("trust proxy", 1);
 
 const server = createServer(app);
 

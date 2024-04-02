@@ -3,25 +3,27 @@ import { Server, Socket } from 'socket.io';
 export const initializeSocketIO = (server: any) => {
     const io = new Server(server, {
         cors: {
-            origin: process.env.FRONTEND_BASE_URL
+            origin: "*"
         }
     });
+
+    console.log("Hello socket");
 
     io.on('connection', (socket: Socket) => {
         console.log('Client connected:', socket.id);
 
         // Code for chat messages
+        socket.on("join-chat", (chatId: string, userId: string) => {
+            socket.join(chatId);
+            socket.to(chatId).emit("user-connected", userId)
+        })
+
         socket.on('sendMessage', (data) => {
-            console.log("wtdgfzhfjzk");
+            console.log("Message sent");
             
             console.log(data);
-            socket.emit("receiveMessage", data)
-            //createMessage(socket, messageContent);
+            socket.to(data.chatId).emit("receiveMessage", data)
         });
-
-        // socket.on('editMessage', (editedMessage: { messageId: string, newContent: string }) => {
-        //     editMessage(editedMessage);
-        // });
 
         // Code for calls
 
