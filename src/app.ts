@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import { createServer } from "http";
 import { initializeSocketIO } from "./routes/chat/router";
+import path from "path";
 const fs = require("fs");
 
 const app: Application = express();
@@ -23,7 +24,7 @@ app.use("/users", usersRouter.routes);
 app.use("/chat", messagesRouter.routes);
 
 app.get("/images/:imageName", (req: Request, res: Response) => {
-  const imageName = req.params.imageName;
+  const imageName = path.basename(req.params.imageName); 
   const readStream = fs.createReadStream(`uploads/${imageName}`);
   readStream.pipe(res);
 });
