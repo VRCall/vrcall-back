@@ -13,7 +13,7 @@ module.exports = async (req:Request, res:Response) => {
             }
         });
         
-        return res.status(201).json({'user':user})
+        return res.status(200).json(user)
         
         
     } catch (error) {

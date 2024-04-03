@@ -13,9 +13,6 @@ module.exports = async (req: Request, res: Response) => {
 
     try {
 
-        console.log(req.body);
-        
-
         const { email, password } = req.body;
 
         const validatedFields = RegisterSchema.safeParse({

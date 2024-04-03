@@ -1,7 +1,9 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
+import { Socket } from 'socket.io';
+const { ExpressPeerServer } = require("peer");
 import { createServer } from "http";
-import { initializeSocketIO } from "./routes/chat/router";
+import { initializeSocketIO } from "./utils/socket";
 import path from "path";
 const fs = require("fs");
 
@@ -12,7 +14,7 @@ const messagesRouter = require("./routes/chat/router");
 const friendshipsRouter = require("./routes/friends/router");
 
 const corsOptions = {
-  origin: process.env.FRONTEND_BASE_URL || "*",
+  origin: "*",
 };
 
 app.use(express.json());
@@ -28,10 +30,13 @@ app.get("/images/:imageName", (req: Request, res: Response) => {
   const readStream = fs.createReadStream(`uploads/${imageName}`);
   readStream.pipe(res);
 });
+app.set("trust proxy", 1);
 
 const server = createServer(app);
 
 initializeSocketIO(server);
+
+app.use("/peerjs", ExpressPeerServer(server))
 
 const port = process.env.PORT || 8000;
 
