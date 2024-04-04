@@ -47,10 +47,10 @@ module.exports = async (req: Request, res: Response) => {
           img: friendship.sender.img,
           sent_at: friendship.sent_at,
         };
-      }
+      },
     );
     const filteredList = new Map(
-      receivedFriendships.map((item) => [item["id"], item])
+      receivedFriendships.map((item) => [item["id"], item]),
     );
     const friendList = Array.from(filteredList.values());
 

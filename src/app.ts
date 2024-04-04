@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
-import { Socket } from 'socket.io';
+import { Socket } from "socket.io";
 const { ExpressPeerServer } = require("peer");
 import { createServer } from "http";
 import { initializeSocketIO } from "./utils/socket";
@@ -26,7 +26,7 @@ app.use("/users", usersRouter.routes);
 app.use("/chat", messagesRouter.routes);
 
 app.get("/images/:imageName", (req: Request, res: Response) => {
-  const imageName = path.basename(req.params.imageName); 
+  const imageName = path.basename(req.params.imageName);
   const readStream = fs.createReadStream(`uploads/${imageName}`);
   readStream.pipe(res);
 });
@@ -36,7 +36,7 @@ const server = createServer(app);
 
 initializeSocketIO(server);
 
-app.use("/peerjs", ExpressPeerServer(server))
+app.use("/peerjs", ExpressPeerServer(server));
 
 const port = process.env.PORT || 8000;
 

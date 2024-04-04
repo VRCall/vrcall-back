@@ -14,7 +14,7 @@ const upload = multer({
     destination: (
       req: Request,
       file: Express.Multer.File,
-      callback: DestinationCallback
+      callback: DestinationCallback,
     ) => {
       let path = `./uploads`;
 
@@ -23,7 +23,7 @@ const upload = multer({
     filename: (
       req: Request,
       file: Express.Multer.File,
-      callback: FileNameCallback
+      callback: FileNameCallback,
     ) => {
       let fileExtension = file.originalname.split(".").pop();
       let newFileName = "/" + crypto.randomUUID() + "." + fileExtension;
@@ -33,7 +33,7 @@ const upload = multer({
   fileFilter: (
     req: Request,
     file: Express.Multer.File,
-    cb: FileFilterCallback
+    cb: FileFilterCallback,
   ) => {
     if (
       file.mimetype == "image/png" ||

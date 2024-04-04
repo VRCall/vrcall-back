@@ -24,14 +24,13 @@ module.exports = async (req: Request, res: Response) => {
       },
     });
 
-    if(!profile) {
+    if (!profile) {
       return res.status(400).json({ message: "User not found" });
     }
 
     return res.status(200).json(profile);
-
   } catch (e) {
     console.error(e);
-    return res.status(500).json({ message: "An error occured:" + e});
+    return res.status(500).json({ message: "An error occured:" + e });
   }
 };

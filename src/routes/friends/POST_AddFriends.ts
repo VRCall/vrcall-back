@@ -3,7 +3,6 @@ import prisma from "../../utils/prisma";
 
 module.exports = async (req: Request, res: Response) => {
   try {
-
     const { pseudo, user } = req.body;
 
     if (!pseudo) {

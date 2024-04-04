@@ -59,12 +59,12 @@ module.exports = async (req: Request, res: Response) => {
           img: friendship.sender.img,
           friendship_id: friendship.id,
         };
-      }
+      },
     );
     const merged = [...sentFriendships, ...receivedFriendships];
     const filteredList = new Map(merged.map((item) => [item["pseudo"], item]));
     const friendList = Array.from(filteredList.values()).sort((a, b) =>
-      a.pseudo.localeCompare(b.pseudo)
+      a.pseudo.localeCompare(b.pseudo),
     );
 
     if (friendList.length === 0) {
