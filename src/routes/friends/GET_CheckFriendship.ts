@@ -28,10 +28,8 @@ module.exports = async (req: Request, res: Response) => {
 		}
 	} catch (error) {
 		console.error("Error checking friendship:", error);
-		return res
-			.status(403)
-			.json({
-				message: "You are not friends. You cannot access this chat."
-			});
+		return res.status(403).json({
+			message: "You are not friends. You cannot access this chat."
+		});
 	}
 };
