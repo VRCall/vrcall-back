@@ -14,7 +14,7 @@ const messagesRouter = require("./routes/chat/router");
 const friendshipsRouter = require("./routes/friends/router");
 
 const corsOptions = {
-  origin: "*",
+	origin: "*"
 };
 
 app.use(express.json());
@@ -26,9 +26,9 @@ app.use("/users", usersRouter.routes);
 app.use("/chat", messagesRouter.routes);
 
 app.get("/images/:imageName", (req: Request, res: Response) => {
-  const imageName = path.basename(req.params.imageName);
-  const readStream = fs.createReadStream(`uploads/${imageName}`);
-  readStream.pipe(res);
+	const imageName = path.basename(req.params.imageName);
+	const readStream = fs.createReadStream(`uploads/${imageName}`);
+	readStream.pipe(res);
 });
 app.set("trust proxy", 1);
 
@@ -44,5 +44,5 @@ app.use("/users", usersRouter.routes);
 app.use("/friendships", friendshipsRouter.routes);
 
 server.listen(port, () => {
-  console.log(`App listening on port ${port}`);
+	console.log(`App listening on port ${port}`);
 });
