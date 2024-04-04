@@ -23,10 +23,12 @@ module.exports = async (req: Request, res: Response) => {
 		//@ts-ignore
 		const image = req.file;
 
-		if (image !== null && !image?.mimetype.startsWith("image/")) {
-			//fs.unlink(`./uploads/${image?.filename}`)
-			return res.status(400).json({ message: "Invalid image" });
-		}
+		console.log(image);
+
+		// if (!image?.mimetype.startsWith("image/")) {
+		// 	fs.unlink(`./uploads/${image?.filename}`)
+		// 	return res.status(400).json({ message: "Invalid image" });
+		// }
 
 		const validatedFields = RegisterSchema.safeParse({
 			pseudo: pseudo,
@@ -57,18 +59,18 @@ module.exports = async (req: Request, res: Response) => {
 			parseInt(process.env.SALTS!)
 		);
 
-		const profileImg = "/images" + image.filename;
+		//const profileImg = "/images" + image.filename;
 
 		await prisma.user.create({
 			data: {
 				pseudo: validatedFields.data.pseudo,
 				email: validatedFields.data.email,
 				password: hashedPassword,
-				img: profileImg
+				img: /*profileImg*/ "/images/default.png"
 			}
 		});
 
-		return res.status(201);
+		return res.status(201).json({ message: "User created" });
 	} catch (error: any) {
 		console.log("Error : " + error);
 		return res.status(500).json({ message: "An error occured : " + error });
