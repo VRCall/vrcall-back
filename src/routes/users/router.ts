@@ -62,7 +62,11 @@ router.post("/login", loginUser);
 router.get("/friends", authentication, getFriendList);
 router.get("/current", authentication, getUser);
 router.get("/profile", authentication, getProfile);
-router.get("/profile/:friendshipId", authentication, getProfileByFriendshipId);
+router.get(
+  "/profile-by-friendship-id/:friendshipId",
+  authentication,
+  getProfileByFriendshipId
+);
 router.post("/auth", authentication, (req: Request, res: Response) => {
   res.json(true);
 });
