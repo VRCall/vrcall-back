@@ -29,23 +29,27 @@ const upload = multer({
 			let newFileName = "/" + crypto.randomUUID() + "." + fileExtension;
 			callback(null, newFileName);
 		}
-	}),
-	fileFilter: (
-		req: Request,
-		file: Express.Multer.File,
-		cb: FileFilterCallback
-	) => {
-		if (
-			file.mimetype == "image/png" ||
-			file.mimetype == "image/jpg" ||
-			file.mimetype == "image/jpeg"
-		) {
-			cb(null, true);
-		} else {
-			cb(null, false);
-			return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
-		}
-	}
+	})
+	// fileFilter: (
+	// 	req: Request,
+	// 	file: Express.Multer.File,
+	// 	cb: FileFilterCallback
+	// ) => {
+	// 	if (
+	// 		file.mimetype == "image/png" ||
+	// 		file.mimetype == "image/jpg" ||
+	// 		file.mimetype == "image/jpeg"
+	// 	) {
+	// 		cb(null, true);
+	// 	}
+	// 	else if(file.originalname === "blob" && file.mimetype === "application/octet-stream") {
+	// 		cb(null, true);
+	// 	}
+	// 	else {
+	// 		cb(null, false);
+	// 		return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
+	// 	}
+	// }
 });
 
 // Get methods
