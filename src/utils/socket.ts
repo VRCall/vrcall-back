@@ -12,20 +12,23 @@ export const initializeSocketIO = (server: any) => {
     io.on('connection', (socket: Socket) => {
         console.log('Client connected:', socket.id);
 
-        // Code for chat messages
         socket.on("join-chat", (chatId: string, userId: string) => {
             socket.join(chatId);
             socket.to(chatId).emit("user-connected", userId)
         })
 
-        socket.on('sendMessage', (data) => {
+        socket.on('sendMessage', async (data) => {
             console.log("Message sent");
             
             console.log(data);
             socket.to(data.chatId).emit("receiveMessage", data)
-        });
 
-        // Code for calls
+            const notificationData = {
+                chatId: data.chatId,
+                senderId: data.senderId, 
+            };
+            socket.to(data.chatId).emit("sendNotification", notificationData);
+        });
 
         socket.emit("me", socket.id)
 

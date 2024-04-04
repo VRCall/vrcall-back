@@ -12,6 +12,7 @@ const app: Application = express();
 const usersRouter = require("./routes/users/router");
 const messagesRouter = require("./routes/chat/router");
 const friendshipsRouter = require("./routes/friends/router");
+const notificationRouter = require("./routes/notification/router");
 
 const corsOptions = {
   origin: "*",
@@ -42,6 +43,7 @@ const port = process.env.PORT || 8000;
 
 app.use("/users", usersRouter.routes);
 app.use("/friendships", friendshipsRouter.routes);
+app.use("/notification", notificationRouter.routes)
 
 server.listen(port, () => {
   console.log(`App listening on port ${port}`);
