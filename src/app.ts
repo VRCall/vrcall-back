@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
-import { Socket } from 'socket.io';
+import { Socket } from "socket.io";
 const { ExpressPeerServer } = require("peer");
 import { createServer } from "http";
 import { initializeSocketIO } from "./utils/socket";
@@ -15,7 +15,7 @@ const friendshipsRouter = require("./routes/friends/router");
 const notificationRouter = require("./routes/notification/router");
 
 const corsOptions = {
-  origin: "*",
+	origin: "*"
 };
 
 app.use(express.json());
@@ -27,9 +27,9 @@ app.use("/users", usersRouter.routes);
 app.use("/chat", messagesRouter.routes);
 
 app.get("/images/:imageName", (req: Request, res: Response) => {
-  const imageName = path.basename(req.params.imageName); 
-  const readStream = fs.createReadStream(`uploads/${imageName}`);
-  readStream.pipe(res);
+	const imageName = path.basename(req.params.imageName);
+	const readStream = fs.createReadStream(`uploads/${imageName}`);
+	readStream.pipe(res);
 });
 app.set("trust proxy", 1);
 
@@ -37,7 +37,7 @@ const server = createServer(app);
 
 initializeSocketIO(server);
 
-app.use("/peerjs", ExpressPeerServer(server))
+app.use("/peerjs", ExpressPeerServer(server));
 
 const port = process.env.PORT || 8000;
 
@@ -46,5 +46,5 @@ app.use("/friendships", friendshipsRouter.routes);
 app.use("/notification", notificationRouter.routes)
 
 server.listen(port, () => {
-  console.log(`App listening on port ${port}`);
+	console.log(`App listening on port ${port}`);
 });

@@ -1,19 +1,20 @@
-import { PrismaClient } from '@prisma/client';
-import { Request, Response } from 'express';
+import { PrismaClient } from "@prisma/client";
+import { Request, Response } from "express";
+import { Server, Socket } from "socket.io";
 
 const prisma = new PrismaClient();
 
-module.exports = async (req:Request, res:Response) => {
-    try {
-        const { text, friendship_id, user }=req.body        
+module.exports = async (req: Request, res: Response) => {
+	try {
+		const { text, friendship_id, user } = req.body;
 
-        const newMessage = await prisma.friendshipMessage.create({
-            data: {
-                text: text,
-                friendship_id: friendship_id,
-                sender_id: user.id 
-            }
-        });
+		const newMessage = await prisma.friendshipMessage.create({
+			data: {
+				text: text,
+				friendship_id: friendship_id,
+				sender_id: user.id
+			}
+		});
 
         const newNotification = await prisma.notification.create({
             data: {
@@ -31,4 +32,3 @@ module.exports = async (req:Request, res:Response) => {
         return res.status(500).json({'test':error})
     }
 };
-
