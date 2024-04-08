@@ -16,9 +16,19 @@ module.exports = async (req: Request, res: Response) => {
 			}
 		});
 
-		return res.status(201).json({ test1: newMessage });
-	} catch (error) {
-		console.error("Error creating message:", error);
-		return res.status(500).json({ test: error });
-	}
+        const newNotification = await prisma.notification.create({
+            data: {
+              user_id: user.id,
+              type: "message",
+              text: "Message received",
+              sender_id: user.id
+            },
+        });
+
+        return res.status(201).json({'test1':newMessage})
+
+    } catch (error) {
+        console.error('Error creating message:', error);
+        return res.status(500).json({'test':error})
+    }
 };
