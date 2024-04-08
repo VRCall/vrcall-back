@@ -18,11 +18,20 @@ export const initializeSocketIO = (server: any) => {
 			socket.to(chatId).emit("user-connected", userId);
 		});
 
-		socket.on("sendMessage", (data) => {
+		socket.on("sendMessage",(data) => {
 			console.log("Message sent");
 
 			console.log(data);
 			socket.to(data.chatId).emit("receiveMessage", data);
+
+			const NotificationData = {
+				type: "message",
+				text: "New message from " + data.senderName
+			};
+
+			socket
+				.to(data.receiverName)
+				.emit("send-notification", NotificationData);
 		});
 
 		// Code for calls
@@ -40,6 +49,12 @@ export const initializeSocketIO = (server: any) => {
 
 		socket.on("disconnect", () => {
 			socket.broadcast.emit("callEnded");
+		});
+
+		// notification
+		socket.on("join-notification", (pseudo: string) => {
+			socket.join(pseudo);
+			console.log("Notification joined", pseudo);
 		});
 	});
 };
