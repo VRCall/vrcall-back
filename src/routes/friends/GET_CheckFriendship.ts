@@ -18,6 +18,10 @@ module.exports = async (req: Request, res: Response) => {
 			}
 		});
 
+		if (!friendship) {
+			return res.status(200).json({ isFriend: true });
+		}
+
 		if (
 			user.id === friendship?.sender_id ||
 			user.id === friendship?.receiver_id

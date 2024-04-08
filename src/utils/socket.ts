@@ -18,7 +18,7 @@ export const initializeSocketIO = (server: any) => {
 			socket.to(chatId).emit("user-connected", userId);
 		});
 
-		socket.on("sendMessage",(data) => {
+		socket.on("sendMessage", (data) => {
 			console.log("Message sent");
 
 			console.log(data);
