@@ -18,7 +18,7 @@ export const initializeSocketIO = (server: any) => {
 			socket.to(chatId).emit("user-connected", userId);
 		});
 
-		socket.on("sendMessage",(data) => {
+		socket.on("sendMessage", (data) => {
 			console.log("Message sent");
 
 			console.log(data);
@@ -55,6 +55,13 @@ export const initializeSocketIO = (server: any) => {
 		socket.on("join-notification", (pseudo: string) => {
 			socket.join(pseudo);
 			console.log("Notification joined", pseudo);
+		});
+
+		// send friend request
+		socket.on("send-friend-request", (data) => {
+			console.log("Friend request sent");
+			console.log(data);
+			socket.to(data.receiver).emit("send-notification", data);
 		});
 	});
 };
