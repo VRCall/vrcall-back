@@ -13,6 +13,7 @@ module.exports = async (req: Request, res: Response) => {
 			select: {
 				friendship_id: true,
 				text: true,
+				sent_at: true,
 				sender: {
 					select: {
 						pseudo: true
@@ -28,13 +29,15 @@ module.exports = async (req: Request, res: Response) => {
 			friendship_id: string;
 			text: string;
 			senderName: string;
+			sent_at: Date;
 		}[] = [];
 
 		messages.map((message) => {
 			messagesToReturn.push({
 				friendship_id: message.friendship_id,
 				text: message.text,
-				senderName: message.sender.pseudo
+				senderName: message.sender.pseudo,
+				sent_at: message.sent_at
 			});
 		});
 
