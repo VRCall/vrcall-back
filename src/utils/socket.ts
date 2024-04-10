@@ -47,8 +47,8 @@ export const initializeSocketIO = (server: any) => {
 			socket.to(roomId).emit("user-ready", userId);
 		});
 
-		socket.on("disconnect", () => {
-			socket.broadcast.emit("callEnded");
+		socket.on("position", (data) => {
+			socket.broadcast.emit("remote-position", data);
 		});
 
 		// notification
