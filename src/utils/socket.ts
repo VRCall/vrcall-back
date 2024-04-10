@@ -56,5 +56,12 @@ export const initializeSocketIO = (server: any) => {
 			socket.join(pseudo);
 			console.log("Notification joined", pseudo);
 		});
+
+		// send friend request
+		socket.on("send-friend-request", (data) => {
+			console.log("Friend request sent");
+			console.log(data);
+			socket.to(data.receiver).emit("send-notification", data);
+		});
 	});
 };
