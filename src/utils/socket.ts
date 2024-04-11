@@ -63,5 +63,10 @@ export const initializeSocketIO = (server: any) => {
 			console.log(data);
 			socket.to(data.receiver).emit("send-notification", data);
 		});
+
+		// send call notification
+		socket.on("send-call-notification", (data) => {
+			socket.to(data.receiverName).emit("send-notification", data);
+		});
 	});
 };
