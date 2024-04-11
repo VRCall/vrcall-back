@@ -10,6 +10,12 @@ module.exports = async (req: Request, res: Response) => {
 			res.status(404).json({ message: "Please give a friendship id" });
 		}
 
+		await prisma.friendshipMessage.deleteMany({
+			where: {
+				friendship_id: friendshipId
+			}
+		});
+
 		await prisma.friendship.deleteMany({
 			where: {
 				id: friendshipId
