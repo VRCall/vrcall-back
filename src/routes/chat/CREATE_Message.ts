@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-import { Server, Socket } from "socket.io";
 
 const prisma = new PrismaClient();
 
