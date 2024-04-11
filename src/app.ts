@@ -1,6 +1,5 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
-import { Socket } from "socket.io";
 const { ExpressPeerServer } = require("peer");
 import { createServer } from "http";
 import { initializeSocketIO } from "./utils/socket";
@@ -41,7 +40,6 @@ app.use("/peerjs", ExpressPeerServer(server));
 
 const port = process.env.PORT || 8000;
 
-app.use("/users", usersRouter.routes);
 app.use("/friendships", friendshipsRouter.routes);
 app.use("/notification", notificationRouter.routes);
 
