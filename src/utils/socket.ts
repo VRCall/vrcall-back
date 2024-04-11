@@ -17,6 +17,10 @@ export const initializeSocketIO = (server: any) => {
 			socket.to(chatId).emit("user-connected", userId);
 		});
 
+		socket.on("leave-chat", (chatId: string) => {
+			socket.leave(chatId);
+		});
+
 		socket.on("sendMessage", (data) => {
 			socket.to(data.chatId).emit("receiveMessage", data);
 
