@@ -22,7 +22,8 @@ export const initializeSocketIO = (server: any) => {
 
 			const NotificationData = {
 				type: "message",
-				text: "New message from " + data.senderName
+				text: "New message from " + data.senderName,
+				chatId: data.chatId
 			};
 
 			socket
