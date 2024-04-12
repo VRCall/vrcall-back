@@ -30,6 +30,8 @@ model User {
   groups GroupMember[]
   friendship_messages FriendshipMessage[]
   group_messages GroupMessage[]
+  notificationsSent Notification[] @relation("sender")
+  notificationsReceived Notification[] @relation("receiver")
 }
 
 model Friendship {
@@ -83,3 +85,15 @@ model FriendshipMessage {
   sent_at DateTime @default(now())
   modified_at DateTime @default(now())
 }
+
+model Notification {
+  id        String    @id @default(uuid())
+  user_id    String
+  type      String
+  text      String
+  sender_id  String
+  sent_at    DateTime @default(now())
+  user      User      @relation("receiver", fields: [user_id], references: [id])
+  sender    User      @relation("sender", fields: [sender_id], references: [id])
+}
+
