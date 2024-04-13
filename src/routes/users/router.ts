@@ -59,10 +59,12 @@ const getFriendList = require("./GET_FriendList");
 const getUser = require("./GET_CurrentUser");
 const getProfile = require("./GET_Profile");
 const getProfileByFriendshipId = require("./GET_ProfileByFriendshipId");
+const verifyAccount = require("./PATCH_VerifyAccount");
 
 // Add to router
 router.post("/signup", upload.single("profilePicture"), registerUser);
 router.post("/login", loginUser);
+router.patch("/verify/:id", verifyAccount);
 router.get("/friends", authentication, getFriendList);
 router.get("/current", authentication, getUser);
 router.get("/profile", authentication, getProfile);

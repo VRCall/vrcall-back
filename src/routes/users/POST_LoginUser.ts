@@ -32,6 +32,12 @@ module.exports = async (req: Request, res: Response) => {
 			return res.status(401).json({ message: "User doesn't exist" });
 		}
 
+		if (!user.is_validated) {
+			return res
+				.status(401)
+				.json({ message: "Please verify your account" });
+		}
+
 		const validPassword = await bcrypt.compare(
 			validatedFields.data.password,
 			user.password

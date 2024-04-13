@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import prisma from "../../utils/prisma";
 const bcrypt = require("bcrypt");
 import z from "zod";
+import { sendMailVerification } from "../../utils/mail";
 const path = require("path");
 const fs = require("fs");
 const axios = require("axios");
@@ -51,7 +52,7 @@ module.exports = async (req: Request, res: Response) => {
 		});
 
 		if (userExists !== null) {
-			return res.status(400).json({ message: "Already in use" });
+			return res.status(400).json({ message: "Email already used" });
 		}
 
 		const hashedPassword = await bcrypt.hash(
@@ -61,7 +62,7 @@ module.exports = async (req: Request, res: Response) => {
 
 		//const profileImg = "/images" + image.filename;
 
-		await prisma.user.create({
+		const newUser = await prisma.user.create({
 			data: {
 				pseudo: validatedFields.data.pseudo,
 				email: validatedFields.data.email,
@@ -70,7 +71,29 @@ module.exports = async (req: Request, res: Response) => {
 			}
 		});
 
-		return res.status(201).json({ message: "User created" });
+		const mail = await sendMailVerification({
+			to: validatedFields.data.email,
+			subject: `Verify VRCall account ${newUser.pseudo} !`,
+			html: `
+		<h1>
+			Welcome to VRCall !
+		</h1>
+		<p>
+			Please verify your account by clicking on the link below : <a href="${process.env.FRONTEND_BASE_URL}/verify/${newUser.id}" target="_blank">Verify account</a>
+		</p>
+		`
+		});
+		if (mail.accepted.includes(validatedFields.data.email)) {
+			console.log("Mail sent");
+		} else {
+			return res
+				.status(400)
+				.json({ message: "Please add a valid email" });
+		}
+
+		return res
+			.status(201)
+			.json({ message: "Check your email for account verification" });
 	} catch (error: any) {
 		console.log("Error : " + error);
 		return res.status(500).json({ message: "An error occured : " + error });
