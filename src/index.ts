@@ -13,6 +13,6 @@ import { listen } from "@colyseus/tools";
 // Import Colyseus config
 import app from "./app.config";
 
-// Create and listen on 2567 (or PORT environment variable.)
+// Create and listen on 8000 (or PORT environment variable.)
 const port: number = parseInt(process.env.PORT) || 8000;
 listen(app, port);
